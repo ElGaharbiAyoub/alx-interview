@@ -4,9 +4,7 @@
 
 This script reads input from stdin line by line and computes metrics based on a specified input format. The input format should be in the following structure:
 
-```py
-<IP Address> - [<date>] "GET /projects/260 HTTP/1.1" <status code> <file size>
-```
+`<IP Address> - [<date>] "GET /projects/260 HTTP/1.1" <status code> <file size>`
 
 If the format is not as specified, the line will be skipped. After every 10 lines and/or a keyboard interruption (CTRL + C), the script prints the following statistics:
 

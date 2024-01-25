@@ -1,15 +1,18 @@
 #!/usr/bin/python3
+""" Log parsing """ 
 import sys
 from collections import defaultdict
 
 
 def print_stats(total_size, status_counts):
+    """ Print stats """
     print("File size: {}".format(total_size))
     for status_code in sorted(status_counts.keys()):
         print("{}: {}".format(status_code, status_counts[status_code]))
 
 
 def process_line(line, total_size, status_counts):
+    """ Process a line from stdin """
     try:
         parts = line.split()
         file_size = int(parts[-1])
