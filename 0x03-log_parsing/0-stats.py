@@ -26,23 +26,18 @@ def process_line(line, total_size, status_counts):
         return total_size, status_counts
 
 
-def main():
-    total_size = 0
-    status_counts = defaultdict(int)
-    line_count = 0
+total_size = 0
+status_counts = defaultdict(int)
+line_count = 0
 
-    try:
-        for line in sys.stdin:
-            line_count += 1
-            total_size, status_counts = process_line(
-                line.strip(), total_size, status_counts)
+try:
+    for line in sys.stdin:
+        line_count += 1
+        total_size, status_counts = process_line(
+            line.strip(), total_size, status_counts)
 
-            if line_count % 10 == 0:
-                print_stats(total_size, status_counts)
+        if line_count % 10 == 0:
+            print_stats(total_size, status_counts)
 
-    except KeyboardInterrupt:
-        print_stats(total_size, status_counts)
-
-
-if __name__ == "__main__":
-    main()
+except KeyboardInterrupt:
+    print_stats(total_size, status_counts)
