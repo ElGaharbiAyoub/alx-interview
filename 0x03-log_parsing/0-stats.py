@@ -4,45 +4,46 @@ import sys
 from collections import defaultdict
 
 
-def print_stats(total_size, status_counts):
-    """ Print stats """
-    print("File size: {}".format(total_size))
-    for status_code in sorted(status_counts.keys()):
-        print("{}: {}".format(status_code, status_counts[status_code]))
+def print_metrics(total_file_size, status_code_counts):
+    """Print the metrics"""
+    print("File size: {}".format(total_file_size))
+    for code in sorted(status_code_counts):
+        count = status_code_counts[code]
+        if count > 0:
+            print('{}: {}'.format(code, count))
 
 
-def process_line(line, total_size, status_counts):
-    """ Process a line from stdin """
-    try:
-        parts = line.split()
-        file_size = int(parts[-1])
-        status_code = int(parts[-2])
+total_file_size = 0
+status_code_counts = {
+    200: 0,
+    301: 0,
+    400: 0,
+    401: 0,
+    403: 0,
+    404: 0,
+    405: 0,
+    500: 0,
+}
 
-        total_size += file_size
-
-        if status_code in [200, 301, 400, 401, 403, 404, 405, 500]:
-            status_counts[status_code] += 1
-
-        return total_size, status_counts
-
-    except (ValueError, IndexError):
-        return total_size, status_counts
-
-
-total_size = 0
-status_counts = defaultdict(int)
 line_count = 0
 
 try:
     for line in sys.stdin:
         line_count += 1
-        total_size, status_counts = process_line(
-            line.strip(), total_size, status_counts)
+        parts = line.split()
+        try:
+            status_code = int(parts[-2])
+            status_code_counts[status_code] += 1
+        except Exception as err:
+            pass
+
+        try:
+            file_size = int(parts[-1])
+            total_file_size += file_size
+        except Exception as err:
+            pass
 
         if line_count % 10 == 0:
-            print_stats(total_size, status_counts)
-
-except KeyboardInterrupt:
-    raise
+            print_metrics(total_file_size, status_code_counts)
 finally:
-    print_stats(total_size, status_counts)
+    print_metrics(total_file_size, status_code_counts)
