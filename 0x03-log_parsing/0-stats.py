@@ -1,45 +1,46 @@
 #!/usr/bin/python3
 """ Log parsing """
+
+import signal
 import sys
-from collections import defaultdict
+import re
+import time
+
+regex = '^([0-9]?[0-9]?[0-9]\.){3}[0-9]?[0-9]?[0-9] \
+- \[\S* \S*] "\S* \S* \S*" [2-5]0[0,1,3,4,5] [0-9]+$'
+ipregex = '^([0-9]?[0-9]?[0-9]\.){3}[0-9]?[0-9]?[0-9]'
+filesizeregex = '[0-9]+$'
+statuscoderegex = '" [2-5]0[0,1,3,4,5]'
+valid_status_code = {
+    "200": 0,
+    "301": 0,
+    "400": 0,
+    "401": 0,
+    "403": 0,
+    "404": 0,
+    "405": 0,
+    "500": 0
+    }
+filesize = 0
+lineindex = 0
 
 
-def print_stats(total_size, status_counts):
-    """ Print stats """
-    print("File size: {}".format(total_size))
-    for status_code in sorted(status_counts.keys()):
-        print("{}: {}".format(status_code, status_counts[status_code]))
-
-
-def process_line(line, total_size, status_counts):
-    """ Process a line from stdin """
-    try:
-        parts = line.split()
-        file_size = int(parts[-1])
-        status_code = int(parts[-2])
-
-        total_size += file_size
-
-        if status_code in [200, 301, 400, 401, 403, 404, 405, 500]:
-            status_counts[status_code] += 1
-
-        return total_size, status_counts
-
-    except (ValueError, IndexError):
-        return total_size, status_counts
-
-
-total_size = 0
-status_counts = defaultdict(int)
-line_count = 0
+def show():
+    """display status"""
+    print("File size: {}".format(filesize))
+    for code, num in valid_status_code.items():
+        if num:
+            print("{}: {}".format(code, num))
 
 try:
     for line in sys.stdin:
-        line_count += 1
-        total_size, status_counts = process_line(
-            line, total_size, status_counts)
-        if line_count % 10 == 0:
-            print_stats(total_size, status_counts)
-except KeyboardInterrupt:
-    print_stats(total_size, status_counts)
-    raise
+        lineindex += 1
+        if re.match(regex, line):
+            filesize += int(re.search(filesizeregex, line).group(0))
+            statuscode = re.search(statuscoderegex, line).group(0)[2:]
+            if statuscode in valid_status_code:
+                valid_status_code[statuscode] += 1
+        if lineindex % 10 == 0:
+            show()
+finally:
+    show()
