@@ -32,6 +32,7 @@ def show():
         if num:
             print("{}: {}".format(code, num))
 
+
 try:
     for line in sys.stdin:
         lineindex += 1
