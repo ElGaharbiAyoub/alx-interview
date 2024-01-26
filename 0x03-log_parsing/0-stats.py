@@ -49,7 +49,5 @@ try:
         if line_count % 10 == 0:
             print_stats(total_size, status_counts)
 
-except KeyboardInterrupt:
-    raise
 finally:
     print_stats(total_size, status_counts)
