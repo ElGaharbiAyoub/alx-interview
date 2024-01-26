@@ -8,7 +8,8 @@ def print_stats(total_size, status_counts):
     """ Print stats """
     print("File size: {}".format(total_size))
     for status_code in sorted(status_counts.keys()):
-        print("{}: {}".format(status_code, status_counts[status_code]))
+        if status_counts[status_code] > 0:
+            print("{}: {}".format(status_code, status_counts[status_code]))
 
 
 def process_line(line, total_size, status_counts):
@@ -43,6 +44,6 @@ try:
             print_stats(total_size, status_counts)
 
 except KeyboardInterrupt:
-    pass
+    raise
 finally:
     print_stats(total_size, status_counts)
