@@ -37,10 +37,9 @@ try:
     for line in sys.stdin:
         line_count += 1
         total_size, status_counts = process_line(
-            line.strip(), total_size, status_counts)
-
+            line, total_size, status_counts)
         if line_count % 10 == 0:
             print_stats(total_size, status_counts)
-
-finally:
+except KeyboardInterrupt:
     print_stats(total_size, status_counts)
+    raise
