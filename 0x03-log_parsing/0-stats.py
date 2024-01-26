@@ -43,6 +43,6 @@ try:
             print_stats(total_size, status_counts)
 
 except KeyboardInterrupt:
-    raise
+    pass
 finally:
     print_stats(total_size, status_counts)
