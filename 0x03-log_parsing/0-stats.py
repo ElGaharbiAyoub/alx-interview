@@ -14,8 +14,8 @@ def print_stats(total_size, status_counts):
 
 def process_line(line, total_size, status_counts):
     """ Process a line from stdin """
+    parts = line.split()
     try:
-        parts = line.split()
         file_size = int(parts[-1])
         status_code = int(parts[-2])
 
@@ -37,8 +37,14 @@ line_count = 0
 try:
     for line in sys.stdin:
         line_count += 1
-        total_size, status_counts = process_line(
-            line, total_size, status_counts)
+        parts = line.split()
+        try:
+            status_code = int(parts[-2])
+            total_size += int(parts[-1])
+            if status_code in [200, 301, 400, 401, 403, 404, 405, 500]:
+                status_counts[status_code] += 1
+        except (ValueError, IndexError):
+            pass
 
         if line_count % 10 == 0:
             print_stats(total_size, status_counts)
