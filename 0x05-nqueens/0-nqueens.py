@@ -32,8 +32,11 @@ def solve_n_queens(n):
 
 def print_solutions(solutions):
     """Print all solutions"""
-    for sol in solutions:
-        print(sol)
+    for idx, val in enumerate(solutions):
+        if idx == len(solutions) - 1:
+            print(val, end='')
+        else:
+            print(val)
 
 
 if __name__ == '__main__':
