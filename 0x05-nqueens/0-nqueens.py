@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""N queens puzzle"""
 import sys
-
 
 def isSafe(board, row, col, n):
     """Check if a queen can be placed on board[row][col]"""
@@ -16,31 +14,33 @@ def isSafe(board, row, col, n):
             return False
     return True
 
-
-def solveNQUtil(board, col, n):
+def solveNQUtil(board, col, n, solutions):
     """Use backtracking to solve the N queens problem"""
     if col == n:
-        printBoard(board)
+        add_solution(board, solutions)
         return True
     res = False
     for i in range(n):
         if isSafe(board, i, col, n):
             board[i][col] = 1
-            res = solveNQUtil(board, col + 1, n) or res
+            res = solveNQUtil(board, col + 1, n, solutions) or res
             board[i][col] = 0
     return res
 
-
-def printBoard(board):
+def add_solution(board, solutions):
+    """Add the current board configuration to the solutions list"""
     n = len(board)
-    row = []
+    solution = []
     for i in range(n):
         for j in range(n):
             if board[i][j] == 1:
-                row.append([i, j])
-    row.sort()
-    print(row)
+                solution.append([i, j])
+    solutions.append(solution)
 
+def print_solutions(solutions):
+    """Print all solutions"""
+    for solution in solutions:
+        print(solution)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -54,4 +54,6 @@ if __name__ == "__main__":
         print("N must be at least 4")
         sys.exit(1)
     board = [[0 for j in range(n)] for i in range(n)]
-    solveNQUtil(board, 0, n)
+    solutions = []
+    solveNQUtil(board, 0, n, solutions)
+    print_solutions(solutions)
