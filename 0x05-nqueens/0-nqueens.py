@@ -1,17 +1,19 @@
 #!/usr/bin/python3
-'''N Queens Challenge'''
+"""N Queens Challenge"""
 
 import sys
 
+
 def is_safe(row, col, queens):
-    '''Check if placing a queen at position (row, col) is safe'''
+    """Check if placing a queen at position (row, col) is safe"""
     for r, c in queens:
         if c == col or abs(r - row) == abs(c - col):
             return False
     return True
 
+
 def solve_n_queens(n):
-    '''Solve the N Queens problem'''
+    """Solve the N Queens problem"""
     solutions = []
 
     def backtrack(row, queens):
@@ -27,10 +29,12 @@ def solve_n_queens(n):
     backtrack(0, [])
     return solutions
 
+
 def print_solutions(solutions):
-    '''Print all solutions'''
+    """Print all solutions"""
     for sol in solutions:
         print(sol)
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
