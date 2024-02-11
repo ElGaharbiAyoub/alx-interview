@@ -17,6 +17,7 @@ def solve_n_queens(n):
     solutions = []
 
     def backtrack(row, queens):
+        """Use backtracking to find all solutions"""
         if row == n:
             solutions.append(queens[:])
             return
@@ -34,6 +35,7 @@ def print_solutions(solutions):
     """Print all solutions"""
     for queens in solutions:
         print(queens)
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
