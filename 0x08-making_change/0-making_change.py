@@ -3,6 +3,7 @@
 Making Change
 """
 
+
 def makeChange(coins, total):
     dp = [float('inf')] * (total + 1)
     dp[0] = 0
