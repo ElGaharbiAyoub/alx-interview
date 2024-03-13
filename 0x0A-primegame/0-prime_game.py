@@ -4,7 +4,6 @@ Prime Game
 """
 
 
-
 def isPrime(n):
     """
     Check if a number is prime
@@ -15,6 +14,7 @@ def isPrime(n):
         if n % i == 0:
             return False
     return True
+
 
 def isWinner(x, nums):
     """
