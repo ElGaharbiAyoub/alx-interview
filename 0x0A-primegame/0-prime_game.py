@@ -3,6 +3,7 @@
 Prime Game
 """
 
+
 def isPrime(n):
     """
     Check if a number is prime
