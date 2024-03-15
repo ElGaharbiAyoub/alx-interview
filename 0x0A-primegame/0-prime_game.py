@@ -32,12 +32,11 @@ def isWinner(x, nums):
 
     primes = sieveOfEratosthenes(max(nums))
     for i in range(x):
-        primes = countPrimes(nums[i])
-        if primes % 2 == 0:
+        prime = sieveOfEratosthenes(nums[i])
+        if sum(prime) % 2 == 0:
             ben_wins += 1
         else:
             maria_wins += 1
-        prime_count = sum(primes[:nums[i]+1])
 
     if maria_wins > ben_wins:
         return "Maria"
