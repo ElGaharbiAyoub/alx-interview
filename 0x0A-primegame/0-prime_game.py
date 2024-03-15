@@ -4,27 +4,20 @@ Prime Game
 """
 
 
-def isPrime(n):
+def sieveOfEratosthenes(n):
     """
-    Check if a number is prime
+    Generate all primes up to n
     """
-    if n <= 1:
-        return False
-    for i in range(2, int(n**0.5) + 1):
-        if n % i == 0:
-            return False
-    return True
-
-
-def countPrimes(n):
-    """
-    Count the number of primes
-    """
-    count = 0
-    for i in range(1, n + 1):
-        if isPrime(i):
-            count += 1
-    return count
+    primes = [True for i in range(n+1)]
+    p = 2
+    while (p * p <= n):
+        if (primes[p]):
+            for i in range(p * p, n+1, p):
+                primes[i] = False
+        p += 1
+    primes[0] = False
+    primes[1] = False
+    return primes
 
 
 def isWinner(x, nums):
@@ -37,12 +30,14 @@ def isWinner(x, nums):
     maria_wins = 0
     ben_wins = 0
 
+    primes = sieveOfEratosthenes(max(nums))
     for i in range(x):
         primes = countPrimes(nums[i])
         if primes % 2 == 0:
             ben_wins += 1
         else:
             maria_wins += 1
+        prime_count = sum(primes[:nums[i]+1])
 
     if maria_wins > ben_wins:
         return "Maria"
