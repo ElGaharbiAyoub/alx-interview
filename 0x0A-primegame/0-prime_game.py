@@ -3,33 +3,50 @@
 Prime Game
 """
 
-def getPrimes(n):
-    """ list of primes"""
-    prime = []
-    sieve = [True] * (n + 1)
-    for p in range(2, n + 1):
-        if (sieve[p]):
-            prime.append(p)
-            for i in range(p, n + 1, p):
-                sieve[i] = False
-    return prime
+
+def isPrime(n):
+    """
+    Check if a number is prime
+    """
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+
+def countPrimes(n):
+    """
+    Count the number of primes
+    """
+    count = 0
+    for i in range(1, n + 1):
+        if isPrime(i):
+            count += 1
+    return count
 
 
 def isWinner(x, nums):
     """
-        define winner
+    Prime Game
     """
     if x is None or nums is None or x == 0 or nums == []:
         return None
-    maria_count = ben_count = 0
+
+    maria_wins = 0
+    ben_wins = 0
+
     for i in range(x):
-        prime = getPrimes(nums[i])
-        if len(prime) % 2 == 0:
-            ben_count += 1
+        primes = countPrimes(nums[i])
+        if primes % 2 == 0:
+            ben_wins += 1
         else:
-            maria_count += 1
-    if maria_count > ben_count:
-        return 'Maria'
-    elif ben_count > maria_count:
-        return 'Ben'
-    return None
+            maria_wins += 1
+
+    if maria_wins > ben_wins:
+        return "Maria"
+    elif maria_wins < ben_wins:
+        return "Ben"
+    else:
+        return None
